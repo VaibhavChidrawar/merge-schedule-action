@@ -6,7 +6,7 @@ const handleSchedule = require("./lib/handle_schedule");
 main();
 
 async function main() {
-  core.info("In main()");
+  core.info("In main.");
   if (process.env.GITHUB_EVENT_NAME === "pull_request") {
     return handlePullRequest();
   }
