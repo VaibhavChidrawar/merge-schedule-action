@@ -1,4 +1,4 @@
-name: Merge Schedule
+name: New Merge Schedule
 description: "merge pull requests on a scheduled day"
 branding:
   icon: "git-merge"
