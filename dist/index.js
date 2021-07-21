@@ -13,6 +13,7 @@ const handleSchedule = __webpack_require__(565);
 main();
 
 async function main() {
+	core.info("inside main method");
   if (process.env.GITHUB_EVENT_NAME === "pull_request") {
     return handlePullRequest();
   }
