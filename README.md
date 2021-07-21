@@ -22,7 +22,7 @@ jobs:
   merge_schedule:
     runs-on: ubuntu-latest
     steps:
-      - uses: gr2m/merge-schedule-action@v1
+      - uses: VaibhavChidrawar/merge-schedule-action@v0.1-alpha
         with:
           # Merge method to use. Possible values are merge, squash or
           # rebase. Default is merge.
