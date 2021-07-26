@@ -190,64 +190,37 @@ async function handleSchedule() {
   }
 
   for await (const pullRequest of duePullRequests) {
-    try {
-      await octokit.pulls.merge({
-        owner,
-        repo,
-        pull_number: pullRequest.number,
-        merge_method: mergeMethod,
-      });
+    await octokit.pulls.merge({
+      owner,
+      repo,
+      pull_number: pullRequest.number,
+      merge_method: mergeMethod,
+    });
 
-      // find check runs by the Merge schedule action
-      const checkRuns = await octokit.paginate(octokit.checks.listForRef, {
-        owner,
-        repo,
-        ref: pullRequest.ref,
-      });
+    // find check runs by the Merge schedule action
+    const checkRuns = await octokit.paginate(octokit.checks.listForRef, {
+      owner,
+      repo,
+      ref: pullRequest.ref,
+    });
 
-      const checkRun = checkRuns.pop();
-      if (!checkRun) continue;
+    const checkRun = checkRuns.pop();
+    if (!checkRun) continue;
 
-      await octokit.checks.update({
-        check_run_id: checkRun.id,
-        owner,
-        repo,
-        name: "Merge Schedule",
-        head_sha: pullRequest.headSha,
-        conclusion: "success",
-        output: {
-          title: `Scheduled on ${pullRequest.scheduledDate}`,
-          summary: "Merged successfully",
-        },
-      });
+    await octokit.checks.update({
+      check_run_id: checkRun.id,
+      owner,
+      repo,
+      name: "Merge Schedule",
+      head_sha: pullRequest.headSha,
+      conclusion: "success",
+      output: {
+        title: `Scheduled on ${pullRequest.scheduledDate}`,
+        summary: "Merged successfully",
+      },
+    });
 
-      core.info(`${pullRequest.html_url} merged`);
-    } catch (err) {
-      core.info(`Error is : ${err}`);
-      core.info(`${pullRequest.html_url} is having some issue`);
-      // find check runs by the Merge schedule action
-      const checkRuns = await octokit.paginate(octokit.checks.listForRef, {
-        owner,
-        repo,
-        ref: pullRequest.ref,
-      });
-
-      const checkRun = checkRuns.pop();
-      if (!checkRun) continue;
-
-      await octokit.checks.update({
-        check_run_id: checkRun.id,
-        owner,
-        repo,
-        name: "Merge Schedule",
-        head_sha: pullRequest.headSha,
-        conclusion: "failure",
-        output: {
-          title: `Scheduled on ${pullRequest.scheduledDate}`,
-          summary: "Failed to merge",
-        },
-      });
-    }
+    core.info(`${pullRequest.html_url} merged`);
   }
 }
 
