@@ -244,7 +244,7 @@ async function handleSchedule() {
         repo,
         name: "Merge Schedule",
         head_sha: pullRequest.headSha,
-        conclusion: "failure",
+        conclusion: "skipped",
         output: {
           title: `Scheduled on ${pullRequest.scheduledDate}`,
           summary: "Merged successfully",
