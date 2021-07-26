@@ -13,7 +13,6 @@ const handleSchedule = __webpack_require__(565);
 main();
 
 async function main() {
-  core.info("In main.");
   if (process.env.GITHUB_EVENT_NAME === "pull_request") {
     return handlePullRequest();
   }
@@ -192,7 +191,6 @@ async function handleSchedule() {
 
   for await (const pullRequest of duePullRequests) {
     try {
-      core.info(`In Try`);
       await octokit.pulls.merge({
         owner,
         repo,
@@ -225,10 +223,8 @@ async function handleSchedule() {
 
       core.info(`${pullRequest.html_url} merged`);
     } catch (err) {
-      core.info(`In catch`);
-      core.info(`Here is the error : ${err}`);
+      core.info(`Error is : ${err}`);
       core.info(`${pullRequest.html_url} is having some issue`);
-      core.info(`${err.stack} is having some issue`);
       // find check runs by the Merge schedule action
       const checkRuns = await octokit.paginate(octokit.checks.listForRef, {
         owner,
@@ -245,10 +241,10 @@ async function handleSchedule() {
         repo,
         name: "Merge Schedule",
         head_sha: pullRequest.headSha,
-        conclusion: "skipped",
+        conclusion: "failure",
         output: {
           title: `Scheduled on ${pullRequest.scheduledDate}`,
-          summary: "Merged successfully",
+          summary: "Failed to merge",
         },
       });
     }
