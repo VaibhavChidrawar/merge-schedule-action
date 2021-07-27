@@ -22,7 +22,7 @@ jobs:
   merge_schedule:
     runs-on: ubuntu-latest
     steps:
-      - uses: gr2m/merge-schedule-action@v1
+      - uses: VaibhavChidrawar/merge-schedule-action@master
         with:
           # Merge method to use. Possible values are merge, squash or
           # rebase. Default is merge.
@@ -42,7 +42,7 @@ In your pull requests, add a line to the end of the pull request description loo
 Or if you need a more precise, timezone-safe setting, you can use an ISO 8601 date string
 
 ```
-/schedule 2019-12-31T00:00:00.000Z
+/schedule 2019-12-31T00:00:00.000
 ```
 
 Any string that works with the [`new Date()` constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/Date) will work.
