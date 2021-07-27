@@ -19,6 +19,7 @@ async function main() {
 
   handleSchedule();
   process.env.MC_PR_NO = 1;
+  core.info(`Merge conflict PR NO is ${process.env.MC_PR_NO}`);
 }
 
 process.on("unhandledRejection", (reason, promise) => {
