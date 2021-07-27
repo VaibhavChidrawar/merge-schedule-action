@@ -187,7 +187,7 @@ async function handleSchedule() {
   core.info(`${pullRequests.length} scheduled pull requests found`);
 
   if (pullRequests.length === 0) {
-    return;
+    return 0;
   }
 
   const duePullRequests = pullRequests.filter(
@@ -197,7 +197,7 @@ async function handleSchedule() {
   core.info(`${duePullRequests.length} due pull requests found`);
 
   if (duePullRequests.length === 0) {
-    return;
+    return 0;
   }
 
   for await (const pullRequest of duePullRequests) {
