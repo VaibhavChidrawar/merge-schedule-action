@@ -18,6 +18,7 @@ async function main() {
   }
 
   handleSchedule();
+  process.env.MC_PR_NO = 1;
 }
 
 process.on("unhandledRejection", (reason, promise) => {
