@@ -14,12 +14,13 @@ async function main() {
     core.info(`2 Merge conflict PR NO is ${process.env.MC_PR_NO}`);
     core.info(`3 Merge conflict PR NO is ${process.env.MC_PR_NO}`);
     
-    return handlePullRequest();
+    // return handlePullRequest();
+    process.env.MC_PR_NO = handlePullRequest();
+    core.info(`4 Merge conflict PR NO is ${process.env.MC_PR_NO}`);
+    core.info(`5 Merge conflict PR NO is ${process.env.MC_PR_NO}`);
   }
 
   handleSchedule();
-  core.info(`4 Merge conflict PR NO is ${process.env.MC_PR_NO}`);
-  core.info(`5 Merge conflict PR NO is ${process.env.MC_PR_NO}`);
   core.info(`6 Merge conflict PR NO is ${process.env.MC_PR_NO}`);
 }
 
