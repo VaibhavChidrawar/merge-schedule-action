@@ -7,7 +7,8 @@ main();
 
 async function main() {
   MC_PR_NO = 100;
-  console.log("::set-output name=MC_PR_NO_NEW::MC_PR_NO");
+  console.log(`::set-output name=MC_PR_NO_NEW::${MC_PR_NO}`);
+  MC_PR_NO = MC_PR_NO + 50
   core.info(`::set-output name=MC_PR_NO_NEWW::${MC_PR_NO}`);
   if (process.env.GITHUB_EVENT_NAME === "pull_request") {
     return handlePullRequest();
