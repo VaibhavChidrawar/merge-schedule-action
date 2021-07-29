@@ -15,8 +15,10 @@ main();
 async function main() {
   MC_PR_NO = 100;
   console.log(`::set-output name=MC_PR_NO_NEW::${MC_PR_NO}`);
-  MC_PR_NO = MC_PR_NO + 50
-  core.info(`::set-output name=MC_PR_NO_NEWW::${MC_PR_NO}`);
+  
+  // Setting MC_PR_NO to 0 initially
+  core.info(`::set-output name=MC_PR_NO::0`);
+  
   if (process.env.GITHUB_EVENT_NAME === "pull_request") {
     return handlePullRequest();
   }
@@ -159,6 +161,9 @@ async function handleSchedule() {
 
   const mergeMethod = process.env.INPUT_MERGE_METHOD;
 
+  // Setting MC_PR_NO to 0 initially
+  core.info(`::set-output name=MC_PR_NO::0`);
+
   core.info(`Loading open pull request`);
   const pullRequests = await octokit.paginate(
     "GET /repos/:owner/:repo/pulls",
@@ -233,8 +238,14 @@ async function handleSchedule() {
 
       core.info(`${pullRequest.html_url} merged`);
     } catch (err) {
+      // Logging to see the error messages
       core.info(`Unable to merge ${pullRequest.html_url}`);
       core.info(`The Error is : ${err}`);
+      
+      // Setting value of pull request which unable to merge because of above error[Mostly merge conflict]
+      // Setting in MC_PR_NO which can be used in Github action
+      core.info(`::set-output name=MC_PR_NO::${pullRequest.html_url}`);
+
       // find check runs by the Merge schedule action
       const checkRuns = await octokit.paginate(octokit.checks.listForRef, {
         owner,
