@@ -13,7 +13,7 @@ const handleSchedule = __webpack_require__(565);
 main();
 
 async function main() {
-  process.env.MC_PR_NO = 100;
+  MC_PR_NO = 100;
   console.log("::set-output name=MC_PR_NO_NEW::${MC_PR_NO}");
   core.info("::set-output name=MC_PR_NO_NEWW::${MC_PR_NO}");
   if (process.env.GITHUB_EVENT_NAME === "pull_request") {
