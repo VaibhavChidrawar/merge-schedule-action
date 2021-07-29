@@ -16,13 +16,7 @@ async function main() {
     return handlePullRequest();
   }
 
-  MC_PR_NO = await handleSchedule();
-  // console.log("::set-output name=MC_PR_NO_NEW::${MC_PR_NO}");
-  // core.info("::set-output name=MC_PR_NO_NEWW::${MC_PR_NO}");
-  // core.info(`Merge conflict PR NO is ${process.env.MC_PR_NO}`);
-  // console.log(“::set-output name=KEY_NAME_YOU_CAN_DEFINE:” + yourValue)
-  // console.log(“echo ::set-output name=MC_PR_NO_NEW:” + yourValue)
-  // echo "::set-output name=test::world"
+  handleSchedule();
 }
 
 process.on("unhandledRejection", (reason, promise) => {

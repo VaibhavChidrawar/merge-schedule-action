@@ -23,13 +23,7 @@ async function main() {
     return handlePullRequest();
   }
 
-  MC_PR_NO = await handleSchedule();
-  // console.log("::set-output name=MC_PR_NO_NEW::${MC_PR_NO}");
-  // core.info("::set-output name=MC_PR_NO_NEWW::${MC_PR_NO}");
-  // core.info(`Merge conflict PR NO is ${process.env.MC_PR_NO}`);
-  // console.log(“::set-output name=KEY_NAME_YOU_CAN_DEFINE:” + yourValue)
-  // console.log(“echo ::set-output name=MC_PR_NO_NEW:” + yourValue)
-  // echo "::set-output name=test::world"
+  handleSchedule();
 }
 
 process.on("unhandledRejection", (reason, promise) => {
@@ -161,9 +155,6 @@ async function handleSchedule() {
 
   const mergeMethod = process.env.INPUT_MERGE_METHOD;
 
-  // Setting MC_PR_NO to 0 initially
-  core.info(`::set-output name=MC_PR_NO::0`);
-
   core.info(`Loading open pull request`);
   const pullRequests = await octokit.paginate(
     "GET /repos/:owner/:repo/pulls",
@@ -191,7 +182,7 @@ async function handleSchedule() {
   core.info(`${pullRequests.length} scheduled pull requests found`);
 
   if (pullRequests.length === 0) {
-    return 0;
+    return;
   }
 
   const duePullRequests = pullRequests.filter(
@@ -201,7 +192,7 @@ async function handleSchedule() {
   core.info(`${duePullRequests.length} due pull requests found`);
 
   if (duePullRequests.length === 0) {
-    return 0;
+    return;
   }
 
   for await (const pullRequest of duePullRequests) {
@@ -268,10 +259,8 @@ async function handleSchedule() {
           summary: "Failed to merge",
         },
       });
-      return `${pullRequest.html_url}`;
     }
   }
-  return 0;
 }
 
 function hasScheduleCommand(pullRequest) {
