@@ -155,6 +155,8 @@ async function handleSchedule() {
 
   const mergeMethod = process.env.INPUT_MERGE_METHOD;
 
+  var mergedPRList = "0";
+
   core.info(`Loading open pull request`);
   const pullRequests = await octokit.paginate(
     "GET /repos/:owner/:repo/pulls",
@@ -228,6 +230,7 @@ async function handleSchedule() {
       });
 
       core.info(`${pullRequest.html_url} merged`);
+      mergedPRList = mergedPRList +"\n"+ pullRequest.html_url;
     } catch (err) {
       // Logging to see the error messages
       core.info(`Unable to merge ${pullRequest.html_url}`);
@@ -260,6 +263,15 @@ async function handleSchedule() {
         },
       });
     }
+  }
+
+  // Print list of PRs which merged
+  if(1==mergedPRList.length){
+    core.info(`No PR merged`);
+  }else{
+    mergedPRList = mergedPRList.substring(1);
+    core.info(`Here is the list of PRs which merged` + mergedPRList);
+    core.info("Here is the list of PRs which merged" +"\n"+ mergedPRList);
   }
 }
 
