@@ -184,6 +184,7 @@ async function handleSchedule() {
   core.info(`${pullRequests.length} scheduled pull requests found`);
 
   if (pullRequests.length === 0) {
+    core.info(`No PR merged`);
     return;
   }
 
@@ -194,6 +195,7 @@ async function handleSchedule() {
   core.info(`${duePullRequests.length} due pull requests found`);
 
   if (duePullRequests.length === 0) {
+    core.info(`No PR merged`);
     return;
   }
 
