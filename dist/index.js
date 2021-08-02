@@ -156,7 +156,6 @@ async function handleSchedule() {
   const mergeMethod = process.env.INPUT_MERGE_METHOD;
 
   var mergedPRList = "0";
-  core.info(`Initial value` + mergedPRList);
 
   core.info(`Loading open pull request`);
   const pullRequests = await octokit.paginate(
@@ -235,10 +234,7 @@ async function handleSchedule() {
       });
 
       core.info(`${pullRequest.html_url} merged`);
-      // mergedPRList = mergedPRList +"\n"+ pullRequest.html_url;
-      core.info(`Before concatinate` + mergedPRList);
       mergedPRList = mergedPRList + pullRequest.html_url;
-      core.info(`After concatinate` + mergedPRList);
     } catch (err) {
       // Logging to see the error messages
       core.info(`Unable to merge ${pullRequest.html_url}`);
@@ -278,16 +274,10 @@ async function handleSchedule() {
     core.info(`No PR merged`);
     core.info(`::set-output name=MPR_LIST::0`);
   }else{
-    core.info(`Before substring` + mergedPRList);
     mergedPRList = mergedPRList.substring(1);
-    core.info(`After substring` + mergedPRList);
-    core.info(`*****`);
     core.info(`Here is the list of PRs which merged`);
     core.info(mergedPRList);
-    core.info(`*****`);
     core.info(`::set-output name=MPR_LIST::${mergedPRList}`);
-    core.info(`*****`);
-    // core.info("Here is the list of PRs which merged" +"\n"+ mergedPRList);
   }
 }
 
