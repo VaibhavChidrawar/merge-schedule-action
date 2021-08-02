@@ -184,7 +184,8 @@ async function handleSchedule() {
   core.info(`${pullRequests.length} scheduled pull requests found`);
 
   if (pullRequests.length === 0) {
-    core.info(`No PR merged`);
+    // core.info(`No PR merged`);
+    core.info(`::set-output name=MPR_LIST::0`);
     return;
   }
 
@@ -195,7 +196,8 @@ async function handleSchedule() {
   core.info(`${duePullRequests.length} due pull requests found`);
 
   if (duePullRequests.length === 0) {
-    core.info(`No PR merged`);
+    // core.info(`No PR merged`);
+    core.info(`::set-output name=MPR_LIST::0`);
     return;
   }
 
@@ -272,8 +274,9 @@ async function handleSchedule() {
     core.info(`No PR merged`);
   }else{
     mergedPRList = mergedPRList.substring(1);
-    core.info(`Here is the list of PRs which merged` + mergedPRList);
-    core.info("Here is the list of PRs which merged" +"\n"+ mergedPRList);
+    // core.info(`Here is the list of PRs which merged` + mergedPRList);
+    core.info(`::set-output name=MPR_LIST::${mergedPRList}`);
+    // core.info("Here is the list of PRs which merged" +"\n"+ mergedPRList);
   }
 }
 
