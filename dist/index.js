@@ -273,9 +273,9 @@ async function handleSchedule() {
   if(1==mergedPRList.length){
     core.info(`No PR merged`);
   }else{
-    // mergedPRList = mergedPRList.substring(1);
+    mergedPRList = mergedPRList.substring(1);
     core.info(`Here is the list of PRs which merged` + mergedPRList);
-    core.info(`::set-output name=MPR_LIST::${mergedPRList}`);
+    // core.info(`::set-output name=MPR_LIST::${mergedPRList}`);
     // core.info("Here is the list of PRs which merged" +"\n"+ mergedPRList);
   }
 }
