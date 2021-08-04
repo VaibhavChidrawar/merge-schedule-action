@@ -270,8 +270,6 @@ async function handleSchedule() {
     core.info(`::set-output name=MPR_LIST::0`);
   }else{
     mergedPRList = mergedPRList.substring(1);
-    core.info(`Here is the list of PRs which merged`);
-    core.info(mergedPRList);
     core.info(`::set-output name=MPR_LIST::${mergedPRList}`);
   }
 }
