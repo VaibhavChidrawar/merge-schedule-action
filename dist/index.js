@@ -152,6 +152,7 @@ async function handleSchedule() {
 
   const mergeMethod = process.env.INPUT_MERGE_METHOD;
 
+  // Initially setting merged PR list to 0
   var mergedPRList = "0";
 
   core.info(`Loading open pull request`);
@@ -181,7 +182,6 @@ async function handleSchedule() {
   core.info(`${pullRequests.length} scheduled pull requests found`);
 
   if (pullRequests.length === 0) {
-    // core.info(`No PR merged`);
     core.info(`::set-output name=MPR_LIST::0`);
     return;
   }
@@ -193,7 +193,6 @@ async function handleSchedule() {
   core.info(`${duePullRequests.length} due pull requests found`);
 
   if (duePullRequests.length === 0) {
-    // core.info(`No PR merged`);
     core.info(`::set-output name=MPR_LIST::0`);
     return;
   }
@@ -233,7 +232,7 @@ async function handleSchedule() {
       core.info(`${pullRequest.html_url} merged`);
       mergedPRList = mergedPRList + pullRequest.html_url;
     } catch (err) {
-      // Logging to see the error messages
+      // Logging error messages
       core.info(`Unable to merge ${pullRequest.html_url}`);
       core.info(`The Error is : ${err}`);
       
