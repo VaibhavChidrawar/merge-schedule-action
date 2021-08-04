@@ -6,9 +6,6 @@ const handleSchedule = require("./lib/handle_schedule");
 main();
 
 async function main() {
-  MC_PR_NO = 100;
-  console.log(`::set-output name=MC_PR_NO_NEW::${MC_PR_NO}`);
-  
   // Setting MC_PR_NO to 0 initially
   core.info(`::set-output name=MC_PR_NO::0`);
   
