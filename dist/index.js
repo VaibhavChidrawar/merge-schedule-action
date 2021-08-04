@@ -13,9 +13,6 @@ const handleSchedule = __webpack_require__(565);
 main();
 
 async function main() {
-  MC_PR_NO = 100;
-  console.log(`::set-output name=MC_PR_NO_NEW::${MC_PR_NO}`);
-  
   // Setting MC_PR_NO to 0 initially
   core.info(`::set-output name=MC_PR_NO::0`);
   
