@@ -13,6 +13,9 @@ const handleSchedule = __webpack_require__(565);
 main();
 
 async function main() {
+  // Setting MC_PR_NO to 0 initially
+  core.info(`::set-output name=MC_PR_NO::0`);
+  
   if (process.env.GITHUB_EVENT_NAME === "pull_request") {
     return handlePullRequest();
   }
@@ -149,6 +152,9 @@ async function handleSchedule() {
 
   const mergeMethod = process.env.INPUT_MERGE_METHOD;
 
+  // Initially setting merged PR list to 0
+  var mergedPRList = "0";
+
   core.info(`Loading open pull request`);
   const pullRequests = await octokit.paginate(
     "GET /repos/:owner/:repo/pulls",
@@ -176,6 +182,7 @@ async function handleSchedule() {
   core.info(`${pullRequests.length} scheduled pull requests found`);
 
   if (pullRequests.length === 0) {
+    core.info(`::set-output name=MPR_LIST::0`);
     return;
   }
 
@@ -186,6 +193,7 @@ async function handleSchedule() {
   core.info(`${duePullRequests.length} due pull requests found`);
 
   if (duePullRequests.length === 0) {
+    core.info(`::set-output name=MPR_LIST::0`);
     return;
   }
 
@@ -222,9 +230,16 @@ async function handleSchedule() {
       });
 
       core.info(`${pullRequest.html_url} merged`);
+      mergedPRList = mergedPRList + pullRequest.html_url;
     } catch (err) {
+      // Logging error messages
       core.info(`Unable to merge ${pullRequest.html_url}`);
       core.info(`The Error is : ${err}`);
+      
+      // Setting value of pull request which unable to merge because of above error[Mostly merge conflict]
+      // Setting in MC_PR_NO which can be used in Github action
+      core.info(`::set-output name=MC_PR_NO::${pullRequest.html_url}`);
+
       // find check runs by the Merge schedule action
       const checkRuns = await octokit.paginate(octokit.checks.listForRef, {
         owner,
@@ -248,6 +263,14 @@ async function handleSchedule() {
         },
       });
     }
+  }
+
+  // Print list of PRs which merged
+  if(1==mergedPRList.length){
+    core.info(`::set-output name=MPR_LIST::0`);
+  }else{
+    mergedPRList = mergedPRList.substring(1);
+    core.info(`::set-output name=MPR_LIST::${mergedPRList}`);
   }
 }
 
