@@ -35,7 +35,7 @@ jobs:
         with:
           # Merge method to use. Possible values are merge, squash or
           # rebase. Default is merge.
-          merge_method: merge
+          merge_method: squash
           #  Time zone to use. Default is UTC.
           time_zone: "Asia/Tokyo"
         env:
